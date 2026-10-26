@@ -1,0 +1,24 @@
+# Private config (API keys, Gmail App Password, database login, device key)
+config/db.local.php
+config/mail.local.php
+config/ai.local.php
+config/device.local.php
+
+# Environment files
+.env
+.env.*
+
+# Logs
+logs/*
+!logs/.htaccess
+
+# Uploaded photos and temp files
+uploads/photos/*
+!uploads/photos/.gitkeep
+uploads/tmp/*
+
+# Editor / OS junk
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
