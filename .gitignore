@@ -2,7 +2,6 @@
 config/db.local.php
 config/mail.local.php
 config/ai.local.php
-config/device.local.php
 
 # Environment files
 .env
