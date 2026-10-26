@@ -1,0 +1,113 @@
+/* =========================================================
+   BioTrack - Report filters (Attendance Report / My Report)
+   Load AFTER style.css.
+   Fixes the Filter button being pushed off-screen on phones by
+   letting the filter controls wrap into a responsive grid.
+   ========================================================= */
+
+/* breathing room between stacked panels / cards */
+.panel + .panel,
+.stat-grid + .panel,
+.panel + .stat-grid { margin-top: 20px; }
+
+.report-filter {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px 14px;
+    align-items: end;
+}
+.report-filter label {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+.report-filter select,
+.report-filter input[type=date],
+.report-filter input[type=month] {
+    width: 100%;
+    min-width: 0;
+    padding: 9px 12px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius);
+    font-size: 13.5px;
+    font-family: inherit;
+    background: #fff;
+    color: var(--text-dark);
+}
+.report-filter select:focus,
+.report-filter input:focus { border-color: #000000; outline: none; }
+
+/* a block of fields that only shows for the chosen period type */
+.rf-group {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px 14px;
+    align-items: end;
+}
+.rf-group[hidden] { display: none; }
+
+.rf-add { display: flex; gap: 8px; align-items: end; }
+.rf-add > div { flex: 1; min-width: 0; }
+.rf-add .btn { white-space: nowrap; }
+
+.rf-chips {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-height: 0;
+}
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #f4f4f6;
+    border: 1px solid #d6d6dc;
+    border-radius: 20px;
+    padding: 4px 6px 4px 12px;
+    font-size: 12.5px;
+}
+.chip button {
+    border: none;
+    background: rgba(0,0,0,.08);
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    padding: 0;
+}
+.chip button:hover { background: var(--danger); color: #fff; }
+
+.rf-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.rf-actions.rf-inline { grid-column: auto; }
+
+.report-hint {
+    color: var(--text-muted);
+    font-size: 12.5px;
+    margin: 12px 0 0;
+}
+.report-meta {
+    margin: 0 0 14px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+.report-meta strong { color: var(--text-dark); }
+
+@media (max-width: 640px) {
+    .report-filter,
+    .rf-group { grid-template-columns: 1fr; }
+    .rf-actions .btn { flex: 1; text-align: center; }
+    .panel-head .btn { width: 100%; text-align: center; }
+}
+
+@media print {
+    .report-filter, .report-hint, .report-meta { display: none !important; }
+}

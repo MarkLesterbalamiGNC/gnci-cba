@@ -1,0 +1,8 @@
+# Nobody can open the config files from a browser (PHP still reads them normally).
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+</IfModule>

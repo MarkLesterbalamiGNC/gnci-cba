@@ -1,0 +1,39 @@
+# =====================================================================
+#  BioTrack - web server protection  (Apache / XAMPP / most hosting)
+#  Safe to leave as is. Nothing here changes how the site works.
+# =====================================================================
+
+# 1) Never serve internal / backup / source files to the public
+<FilesMatch "(?i)(\.(sql|log|md|txt|ino|bak|old|orig|swp|sh|zip|7z|rar|tar|gz|env|ini|dist|example|inc|yml|yaml|json|lock)|~)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# 2) Hidden files (.git, .env, .htpasswd ...) - but keep the placeholder files harmless
+<FilesMatch "^\.(?!htaccess$)">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# 3) Extra browser protections (also sent by PHP; this covers images/CSS/JS too)
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header unset X-Powered-By
+</IfModule>
+
+# 4) Make sure the PHP files are served as PHP only
+<IfModule mime_module>
+    AddDefaultCharset UTF-8
+</IfModule>

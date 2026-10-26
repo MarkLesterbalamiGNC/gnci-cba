@@ -1,0 +1,7 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/gncipamp/public_html/cba.gncipampanga.com/
+    - /bin/mkdir -p "$DEPLOYPATH"
+    - /bin/tar --exclude='./.git' --exclude='./.github' --exclude='./.cpanel.yml' --exclude='./.gitignore' --exclude='./sql' --exclude='./Arduino INO' --exclude='./SECURITY_NOTES.md' --exclude='./SETUP_STANDALONE.txt' --exclude='./config/db.local.php' --exclude='./config/mail.local.php' --exclude='./config/ai.local.php' --exclude='./uploads/photos' --exclude='./uploads/tmp' -cf - . | /bin/tar -xf - -C "$DEPLOYPATH"
+    - /bin/mkdir -p "$DEPLOYPATH/uploads/photos" "$DEPLOYPATH/uploads/tmp" "$DEPLOYPATH/logs"

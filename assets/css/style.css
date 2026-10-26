@@ -1,0 +1,1350 @@
+/* =========================================================
+   BioTrack - Admin layout (dashboard, employees, reports)
+   ========================================================= */
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+    width: 230px;
+    flex-shrink: 0;
+    background: var(--blue-sidebar);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    transition: width .25s ease, transform .25s ease;
+    overflow-x: hidden;
+}
+.sidebar-brand {
+    padding: 18px 16px;
+    font-size: 16px;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(255,255,255,.12);
+    white-space: nowrap;
+}
+.sidebar-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px;
+    border-bottom: 1px solid rgba(255,255,255,.12);
+}
+.sidebar-profile .avatar {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background: rgba(255,204,0,.14);
+    color: var(--yellow-accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+}
+.sidebar-profile .name { font-size: 13.5px; font-weight: 600; white-space: nowrap; }
+.sidebar-profile .status {
+    font-size: 11px;
+    color: #bfe6cc;
+    display: flex; align-items: center; gap: 4px;
+    white-space: nowrap;
+}
+.sidebar-profile .status::before {
+    content: '';
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #4be07a;
+    display: inline-block;
+}
+
+.sidebar-section-title {
+    font-size: 10.5px;
+    letter-spacing: .08em;
+    color: rgba(255,255,255,.6);
+    padding: 14px 16px 6px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+.sidebar-menu li a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 16px;
+    font-size: 13.5px;
+    color: rgba(255,255,255,.92);
+    border-left: 3px solid transparent;
+    white-space: nowrap;
+    transition: background .15s ease, border-color .15s ease;
+}
+.sidebar-menu li a:hover { background: rgba(255,255,255,.08); }
+.sidebar-menu li a.active {
+    background: rgba(255,204,0,.10);
+    color: #fff;
+    border-left-color: var(--yellow-accent);
+    font-weight: 600;
+}
+.sidebar-menu li a.active .ico { color: var(--yellow-accent); }
+.sidebar-menu li a .ico {
+    width: 20px; height: 20px;
+    display: inline-flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+}
+.ico-svg { width: 18px; height: 18px; display: block; }
+
+/* ---------- Sidebar collapse (toggled by the hamburger) ----------
+   Fully closes the sidebar (width: 0) rather than shrinking it to an
+   icon-only rail, so the main content always gets the full width back
+   the moment it's collapsed - on phones, tablets and desktop alike. */
+.app.sidebar-collapsed .sidebar {
+    width: 0;
+    min-width: 0;
+    padding: 0;
+    border: none;
+    overflow: hidden;
+}
+
+/* ---------- Main column ---------- */
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.topbar {
+    background: var(--blue-header);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 22px;
+    gap: 12px;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.topbar .hamburger {
+    margin-right: 6px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    padding: 6px;
+    border-radius: 8px;
+    color: #d4d4d8;
+    transition: transform .2s ease, background .15s ease, color .15s ease;
+}
+.topbar .hamburger:hover { background: rgba(255,255,255,.08); color: #fff; opacity: 1; }
+.topbar .hamburger .ico-svg { width: 20px; height: 20px; }
+.topbar .brand-mark {
+    width: 34px; height: 34px;
+    border-radius: 10px;
+    background: var(--yellow-accent);
+    color: #141414;
+    display: inline-flex; align-items: center; justify-content: center;
+    margin-right: 10px;
+    flex-shrink: 0;
+}
+.topbar .brand-mark .ico-svg { width: 20px; height: 20px; }
+.topbar .brand-name { font-weight: 700; font-size: 16px; letter-spacing: -.01em; }
+.topbar .brand-sub {
+    font-weight: 400;
+    font-size: 12.5px;
+    color: #a1a1aa;
+    margin-left: 12px;
+    padding-left: 12px;
+    border-left: 1px solid rgba(255,255,255,.16);
+}
+.topbar .hamburger:hover { opacity: .8; }
+.app.sidebar-collapsed .hamburger { transform: rotate(90deg); }
+.topbar .title {
+    font-size: 14.5px;
+    display: flex;
+    align-items: center;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.topbar .admin-chip {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px;
+    position: relative;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+.topbar .admin-chip .avatar {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: rgba(255,204,0,.14);
+    color: var(--yellow-accent);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+}
+.sidebar-profile .avatar .ico-svg,
+.topbar .admin-chip .avatar .ico-svg { width: 16px; height: 16px; }
+.topbar .admin-chip .avatar img { width: 100%; height: 100%; object-fit: cover; }
+.topbar .admin-chip .dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 8px;
+    background: #fff;
+    color: var(--text-dark);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    min-width: 150px;
+    overflow: hidden;
+    z-index: 20;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
+}
+/* Invisible bridge over the gap above the dropdown so moving the mouse
+   from the chip down into the menu doesn't lose :hover along the way. */
+.topbar .admin-chip .dropdown::before {
+    content: '';
+    position: absolute;
+    top: -8px; left: 0; right: 0; height: 8px;
+}
+.topbar .admin-chip.open .dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+.topbar .admin-chip .dropdown a {
+    display: block;
+    padding: 10px 14px;
+    font-size: 13px;
+    transition: background .12s ease;
+}
+.topbar .admin-chip .dropdown a:hover { background: var(--yellow-accent); color: #141414; }
+
+.content {
+    flex: 1;
+    padding: 32px 36px 48px;
+}
+
+.page-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 26px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.page-head h1 { font-size: 24px; font-weight: 700; letter-spacing: -.02em; margin: 0; }
+.breadcrumb { font-size: 13px; color: var(--text-muted); }
+.breadcrumb a { color: var(--text-dark); font-weight: 600; border-bottom: 2px solid var(--yellow-accent); }
+
+.footer-note {
+    text-align: center;
+    font-size: 11.5px;
+    color: var(--text-muted);
+    padding: 16px 0 4px;
+}
+
+/* ---------- Dashboard cards (white surface, black + yellow accents) ---------- */
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 24px;
+    margin-top: 6px;
+}
+.stat-card {
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    overflow: hidden;
+    color: #18181b;
+    box-shadow: var(--shadow);
+    animation: btFadeInUp .35s ease both;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+.stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+.stat-card .stat-body { padding: 24px 24px 20px; position: relative; flex: 1; }
+.stat-card .stat-number { font-size: 40px; font-weight: 700; line-height: 1; letter-spacing: -.03em; color: #18181b; }
+.stat-card .stat-label { font-size: 14px; font-weight: 500; margin-top: 10px; color: #71717a; }
+.stat-card .stat-icon {
+    position: absolute; top: 22px; right: 22px;
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 1;
+    font-size: 0;
+}
+.stat-card .stat-icon .ico-svg { width: 22px; height: 22px; }
+.stat-card.blue   .stat-icon { background: #141414; color: var(--yellow-accent); }
+.stat-card.green  .stat-icon { background: var(--yellow-accent); color: #141414; }
+.stat-card.orange .stat-icon { background: #fef3c7; color: #d97706; }
+.stat-card.red    .stat-icon { background: #dc2626; color: #fff; }
+.stat-card .stat-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 10px 16px;
+    background: transparent;
+    border-top: 1px solid #f4f4f5;
+}
+.stat-card .stat-footer a {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13px; font-weight: 600;
+    color: #141414;
+    padding: 7px 12px;
+    border-radius: 8px;
+    transition: background .15s ease, gap .15s ease;
+}
+.stat-card .stat-footer a .ico-svg { width: 15px; height: 15px; }
+.stat-card .stat-footer a:hover { background: var(--yellow-accent); gap: 10px; }
+.stat-card:nth-child(2) { animation-delay: .06s; }
+.stat-card:nth-child(3) { animation-delay: .12s; }
+.stat-card:nth-child(4) { animation-delay: .18s; }
+
+/* breathing room between stacked panels and card rows (also needed on pages that don't load reports.css) */
+.panel + .panel,
+.stat-grid + .panel,
+.panel + .stat-grid { margin-top: 24px; }
+
+/* ---------- Card / panel ---------- */
+.panel {
+    background: #fff;
+    border-top: 3px solid var(--yellow-accent);
+    border-radius: 16px;
+    border-left: 1px solid var(--border-light);
+    border-right: 1px solid var(--border-light);
+    border-bottom: 1px solid var(--border-light);
+    box-shadow: var(--shadow);
+    padding: 26px;
+    animation: btFadeInUp .35s ease both;
+}
+.panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.panel-head h2 { font-size: 17px; font-weight: 700; letter-spacing: -.01em; margin: 0; }
+
+/* Grouped action buttons in a panel head (e.g. Export / Import / Add New) */
+.toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.btn-dark {
+    background: #141414;
+    color: #fff;
+}
+.btn-dark:hover { background: #2c2c2c; }
+.btn-outline-dark {
+    background: transparent;
+    color: #141414;
+    border: 1.5px solid #141414;
+}
+.btn-outline-dark:hover { background: #141414; color: #fff; }
+
+/* ---------- Table ---------- */
+.table-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.table-toolbar select, .table-toolbar input[type=text] {
+    padding: 7px 10px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius);
+    font-size: 13px;
+}
+table.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+table.data-table th {
+    text-align: left;
+    background: #fafafa;
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border-light);
+    white-space: nowrap;
+}
+table.data-table td {
+    padding: 13px 14px;
+    border-bottom: 1px solid var(--border-light);
+    vertical-align: middle;
+}
+table.data-table tr { transition: background .12s ease; }
+table.data-table tr:hover td { background: #fffdf0; }
+
+.photo-thumb {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: #dfe4ea;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #8a94a6;
+    overflow: hidden;
+}
+.photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+.pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+}
+.pill-green { background: var(--success); }
+.pill-red { background: var(--danger); }
+.pill-dark { background: #141414; }
+.pill-gray { background: #8a94a6; }
+
+.tool-btn {
+    display: inline-flex;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    color: #fff;
+    font-size: 12px;
+    cursor: pointer;
+    margin-right: 4px;
+    transition: transform .12s ease, opacity .12s ease;
+}
+.tool-btn:hover { transform: scale(1.1); opacity: .9; }
+.tool-edit { background: var(--yellow-accent); color: #141414; }
+.tool-delete { background: var(--danger); }
+.tool-view { background: #8a94a6; }
+
+.table-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 12px;
+    font-size: 12.5px;
+    color: var(--text-muted);
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.pagination { display: flex; gap: 4px; flex-wrap: wrap; }
+.pagination a, .pagination span {
+    padding: 5px 10px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius);
+}
+.pagination .active { background: var(--yellow-accent); color: #141414; border-color: var(--yellow-accent); }
+
+/* ---------- Forms (Add Employee) ---------- */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+.form-grid .full { grid-column: 1 / -1; }
+.field label {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+.field input, .field select {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius);
+    font-size: 13.5px;
+    transition: border-color .15s ease;
+}
+.field input:focus, .field select:focus { border-color: var(--yellow-accent-dark); outline: none; }
+.field select:disabled,
+.field input:disabled {
+    background: #eef0f3;
+    color: var(--text-muted);
+    cursor: not-allowed;
+    -webkit-appearance: none;
+    appearance: none;
+    opacity: 1 !important; /* iOS/Android fade disabled controls on their own, hiding our grey */
+    -webkit-text-fill-color: var(--text-muted);
+}
+.field-hint {
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.fingerprint-box {
+    border: 2px dashed var(--border-light);
+    border-radius: var(--radius);
+    padding: 22px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 13px;
+}
+.fingerprint-box .fp-icon { font-size: 30px; display: block; margin-bottom: 8px; }
+.fingerprint-box.enrolled { border-color: var(--success); color: var(--success); }
+
+/* ---------- Import / Export ---------- */
+.file-dropzone {
+    border: 2px dashed var(--border-light);
+    border-radius: var(--radius);
+    padding: 28px 20px;
+    text-align: center;
+    background: #fafbfc;
+    transition: border-color .15s ease, background .15s ease;
+}
+.file-dropzone.dragover {
+    border-color: var(--yellow-accent-dark);
+    background: #fff9e6;
+}
+.file-dropzone .fd-icon { font-size: 30px; display: block; margin-bottom: 8px; }
+.import-results {
+    margin-top: 18px;
+}
+.import-results ul {
+    max-height: 220px;
+    overflow-y: auto;
+    font-size: 12.5px;
+    color: var(--danger);
+    padding-left: 18px;
+    list-style: disc;
+}
+.import-results ul li { margin-bottom: 4px; }
+
+/* ---------- Simple entrance animation ---------- */
+@keyframes btFadeInUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.alert { animation: btFadeInUp .25s ease both; }
+
+/* =========================================================
+   Responsive: tablet / phone (incl. iPhone 16 Pro Max, 430-440px)
+   ========================================================= */
+
+/* The hamburger now always collapses the sidebar to an icon-only rail
+   (width: 70px, see .app.sidebar-collapsed .sidebar above) instead of
+   sliding it fully off-screen - this applies the same way on phones,
+   tablets and desktop, so the sidebar is never completely hidden. */
+@media (max-width: 900px) {
+    .form-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+    .content { padding: 16px 14px 32px; }
+    .topbar { padding: 12px 14px; }
+    .topbar .title { font-size: 12.5px; }
+    .content .full[style*="flex"] { flex-wrap: wrap; }
+    /* Export / Import share one row at equal size; Add New sits full-width below */
+    .toolbar-actions { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .toolbar-actions .btn { text-align: center; white-space: nowrap; padding: 11px 10px; }
+    .toolbar-actions .btn-primary { grid-column: 1 / -1; }
+    .table-footer { flex-direction: column; align-items: flex-start; }
+}
+
+/* =========================================================
+   Print (Attendance Report / My Report "Print Report" button)
+   - Hides everything except the report panel(s) when printing.
+   - .print-only blocks are hidden on screen, shown only on paper.
+   - .no-print blocks (filters, print button itself, stat cards
+     that don't need to be on paper) are hidden only when printing.
+   ========================================================= */
+.print-only { display: none; }
+
+@media print {
+    .sidebar, .topbar, .no-print {
+        display: none !important;
+    }
+    .app, .main, .content {
+        display: block !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        min-height: 0 !important;
+    }
+    .page-head { display: none; }
+    .panel {
+        box-shadow: none !important;
+        border-top: none !important;
+        padding: 0 !important;
+        animation: none !important;
+    }
+    .panel + .panel { margin-top: 24px; }
+    .print-only { display: block !important; }
+    table.data-table { font-size: 12px; }
+    table.data-table th { background: #f0f0f0 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+
+/* =========================================================
+   Mobile only (<= 768px): the sidebar becomes a slide-in drawer.
+   - Hidden completely by default so the page gets the full width.
+   - The hamburger slides it in over the page; tapping the dark
+     backdrop, a menu link, or the hamburger again tucks it away.
+   Desktop behaviour (collapse to width 0) is not touched.
+   ========================================================= */
+.sidebar-backdrop { display: none; }
+
+@media (max-width: 768px) {
+    body .app .sidebar,
+    body .app.sidebar-collapsed .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 250px;
+        min-width: 250px;
+        height: 100vh;
+        height: 100dvh;
+        overflow-x: hidden;
+        overflow-y: auto;
+        transform: translateX(-100%);
+        visibility: hidden;
+        transition: transform .25s ease, visibility 0s linear .25s;
+        z-index: 1000;
+    }
+    body .app.sidebar-open .sidebar {
+        transform: translateX(0);
+        visibility: visible;
+        transition: transform .25s ease, visibility 0s;
+        box-shadow: 0 0 28px rgba(0,0,0,.45);
+    }
+
+    .sidebar-backdrop {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.5);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity .25s ease;
+        z-index: 999;
+    }
+    .app.sidebar-open .sidebar-backdrop {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    body.sidebar-open-lock { overflow: hidden; }
+
+    /* bigger tap target for the hamburger */
+    .topbar .hamburger {
+        padding: 8px 10px;
+        margin: -8px 4px -8px -10px;
+        font-size: 18px;
+    }
+    .app.sidebar-collapsed .hamburger { transform: none; }
+}
+
+
+/* =========================================================
+   "Are you sure?" pop-up + bulk select (checkbox) delete
+   ========================================================= */
+.confirm-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 2000;
+    animation: btFadeIn .15s ease both;
+}
+.confirm-overlay[hidden] { display: none; }
+@keyframes btFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.confirm-box {
+    background: #fff;
+    border-top: 4px solid var(--danger);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 12px 40px rgba(0,0,0,.35);
+    width: 100%;
+    max-width: 400px;
+    padding: 26px 26px 22px;
+    text-align: center;
+    animation: btFadeInUp .2s ease both;
+}
+.confirm-box.is-safe { border-top-color: var(--yellow-accent); }
+.confirm-icon {
+    width: 52px; height: 52px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: #fdecea;
+    color: var(--danger);
+    font-size: 26px;
+    display: flex; align-items: center; justify-content: center;
+}
+.confirm-box.is-safe .confirm-icon { background: #fff4cc; color: var(--yellow-accent-dark); }
+.confirm-box h3 { margin: 14px 0 8px; font-size: 17px; color: var(--text-dark); }
+.confirm-box p  { margin: 0 0 20px; font-size: 13.5px; line-height: 1.55; color: var(--text-muted); }
+.confirm-actions { display: flex; gap: 10px; }
+.confirm-actions .btn { flex: 1; }
+.confirm-cancel { background: #e3e7ee; color: #2c3444; }
+.confirm-cancel:hover { background: #d6dbe4; }
+.btn-danger:hover { background: #c93a3a; }
+
+.bulk-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px 14px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+    font-size: 12.5px;
+    color: var(--text-muted);
+}
+.bulk-bar .btn { padding: 8px 14px; font-size: 13px; }
+.btn:disabled { opacity: .4; cursor: not-allowed; }
+
+table.data-table th.col-check,
+table.data-table td.col-check { width: 38px; text-align: center; padding-left: 8px; padding-right: 8px; }
+.bulk-check, .bulk-all { width: 16px; height: 16px; cursor: pointer; accent-color: var(--yellow-accent-dark); }
+table.data-table tr.row-selected td { background: #fff9e6; }
+
+@media (max-width: 640px) {
+    .bulk-bar .btn { flex: 1; text-align: center; }
+}
+@media print {
+    .confirm-overlay, .bulk-bar, .col-check { display: none !important; }
+}
+
+.tool-btn:disabled { opacity: .35; cursor: not-allowed; transform: none; }
+
+
+/* =========================================================
+   Redesign additions: attendance pills, employee info, donut
+   ========================================================= */
+.pill-present { background: #16a34a; color: #ffffff; }
+.pill-late    { background: #f97316; color: #ffffff; }
+.pill-absent  { background: #dc2626; color: #ffffff; }
+
+.photo-thumb.is-icon { background: #141414; color: var(--yellow-accent); }
+.photo-thumb.is-icon .ico-svg { width: 46%; height: 46%; }
+.emp-name { font-weight: 700; font-size: 18px; letter-spacing: -.01em; }
+.emp-meta { color: var(--text-muted); font-size: 13px; margin-top: 2px; }
+.emp-note { color: var(--text-muted); font-size: 12.5px; margin-top: 8px; }
+.emp-note strong { color: var(--text-dark); }
+
+.donut-panel { margin-top: 24px; }
+.donut-wrap { display: flex; align-items: center; gap: 56px; flex-wrap: wrap; padding-top: 4px; }
+.donut { position: relative; width: 220px; height: 220px; flex: none; }
+.donut svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.donut circle { fill: none; stroke-width: 5.5; }
+.donut .donut-track { stroke: #f4f4f5; }
+.donut .donut-seg { transition: stroke-dasharray .6s ease; }
+.donut .donut-seg.seg-present { stroke: #16a34a; }
+.donut .donut-seg.seg-late    { stroke: #f97316; }
+.donut .donut-seg.seg-absent  { stroke: #dc2626; }
+.donut-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.donut-center b { font-size: 34px; font-weight: 700; letter-spacing: -.03em; line-height: 1; }
+.donut-center span { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+.donut-legend { flex: 1; min-width: 240px; display: grid; gap: 12px; }
+.donut-leg { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border: 1px solid var(--border-light); border-radius: 12px; }
+.donut-leg .dot { width: 12px; height: 12px; border-radius: 50%; flex: none; }
+.donut-leg .dot.seg-present { background: #16a34a; }
+.donut-leg .dot.seg-late    { background: #f97316; }
+.donut-leg .dot.seg-absent  { background: #dc2626; }
+.donut-leg .n { font-weight: 600; font-size: 14px; }
+.donut-leg .c { font-size: 12px; color: var(--text-muted); }
+.donut-leg .p { margin-left: auto; font-size: 20px; font-weight: 700; letter-spacing: -.02em; }
+
+@media (max-width: 900px) { .content { padding: 24px 22px 40px; } }
+@media (max-width: 640px) {
+    .topbar .brand-sub { display: none; }
+    .stat-card .stat-body { padding: 20px 20px 16px; }
+    .stat-card .stat-number { font-size: 32px; }
+    .stat-card .stat-icon { width: 42px; height: 42px; top: 18px; right: 18px; }
+    .panel { padding: 18px; }
+    .donut-wrap { justify-content: center; gap: 28px; }
+}
+@media print { .donut-panel { display: none !important; } }
+
+
+/* =========================================================
+   Photos in avatars + fingerprint SVG sizing
+   ========================================================= */
+.sidebar-profile .avatar,
+.topbar .admin-chip .avatar { overflow: hidden; }
+.sidebar-profile .avatar img,
+.topbar .admin-chip .avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.sidebar-profile .avatar { width: 38px; height: 38px; }
+.topbar .admin-chip .avatar { width: 32px; height: 32px; }
+
+.photo-thumb .ico-svg { width: 55%; height: 55%; }
+
+.btn .btn-ico { width: 16px; height: 16px; display: inline-block; vertical-align: -3px; margin-right: 2px; }
+.fingerprint-box .fp-icon { color: #141414; }
+.fingerprint-box .fp-icon .ico-svg { width: 38px; height: 38px; margin: 0 auto; }
+.scan-orb, .fp-orb { color: #141414; }
+.scan-orb .ico-svg { width: 68px; height: 68px; stroke-width: 1.5; }
+.fp-orb .ico-svg { width: 54px; height: 54px; stroke-width: 1.5; }
+.fp-orb.ok, .fp-orb.err { color: inherit; }
+.fp-orb.ok  { color: var(--success); }
+.fp-orb.err { color: var(--danger); }
+
+
+/* =========================================================
+   Update: status colours (Present green / Late red / Absent black),
+   yellow outlines, and the swipeable profile bubbles
+   ========================================================= */
+.stat-card.present .stat-icon { background: #16a34a; color: #fff; }
+.stat-card.late    .stat-icon { background: #f97316; color: #fff; }
+
+/* Print exactly what is on screen: browsers drop background colours unless told not to,
+   which is why every status used to print yellow (the pill text colour with no background). */
+@media print {
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    .pill { box-shadow: none !important; padding: 0 !important; background: transparent !important; font-weight: 700 !important; }
+    .pill-present { color: #16a34a !important; }
+    .pill-late    { color: #f97316 !important; }
+    .pill-absent  { color: #dc2626 !important; }
+    .pill-gray    { color: #555555 !important; }
+}
+
+/* ---------- Yellow outline accents ---------- */
+.stat-card, .panel, .auth-card { border: 1.5px solid rgba(255,204,0,.55); }
+.panel { border-top: 3px solid var(--yellow-accent); }
+.stat-card:hover, .panel:hover { border-color: var(--yellow-accent); box-shadow: 0 0 0 3px rgba(255,204,0,.18), var(--shadow-hover); }
+.stat-card .stat-footer { border-top: 1px solid rgba(255,204,0,.45); }
+table.data-table th { border-bottom: 2px solid var(--yellow-accent); }
+.field input, .field select, .report-filter select, .report-filter input[type=date], .report-filter input[type=month], .form-group input { border: 1.5px solid rgba(255,204,0,.6); }
+.field input:focus, .field select:focus, .report-filter select:focus, .report-filter input:focus, .form-group input:focus { box-shadow: 0 0 0 3px rgba(255,204,0,.28); }
+.topbar { border-bottom: 2px solid var(--yellow-accent); }
+.sidebar { border-right: 2px solid rgba(255,204,0,.35); }
+@media print {
+    .stat-card, .panel { border-color: #ddd !important; box-shadow: none !important; }
+    .topbar, .sidebar { border: none !important; }
+}
+
+
+/* =========================================================
+   Yellow outlines only (white inside) - applied to every card, panel, table and field
+   ========================================================= */
+.stat-card, .panel, .auth-card, .confirm-box, .donut-leg {
+    background: #ffffff;
+    border: 2px solid var(--yellow-accent);
+    box-shadow: var(--shadow);
+}
+.panel { border-top-width: 5px; }
+.stat-card:hover, .panel:hover { box-shadow: 0 0 0 4px rgba(255,204,0,.28), var(--shadow-hover); }
+.stat-card .stat-footer { background: transparent; border-top: 2px solid var(--yellow-accent); }
+.panel-head { border-bottom: 2px solid var(--yellow-accent); padding-bottom: 12px; }
+table.data-table th { background: #ffffff; color: #141414; border-bottom: 2px solid var(--yellow-accent); }
+table.data-table td { border-bottom: 1px solid #ececec; }
+table.data-table tr:hover td { background: #fafafa; }
+.field input, .field select, .report-filter select, .report-filter input[type=date], .report-filter input[type=month], .form-group input, .form-group select {
+    background: #ffffff;
+    border: 2px solid var(--yellow-accent);
+}
+.breadcrumb a { border-bottom: 3px solid var(--yellow-accent); }
+.topbar { border-bottom: 2px solid var(--yellow-accent); }
+.sidebar { border-right: 2px solid var(--yellow-accent); }
+
+@media print {
+    .stat-card, .panel { background: #fff !important; border: 1px solid #ddd !important; box-shadow: none !important; }
+    .panel-head { border-bottom: none !important; }
+    .topbar, .sidebar { border: none !important; }
+    table.data-table th { background: #f0f0f0 !important; border-bottom: 1px solid #ccc !important; }
+}
+
+
+/* =========================================================
+   Inner elements: soft, modern look. Only the OUTERMOST card
+   keeps the yellow outline - nothing inside it is yellow.
+   ========================================================= */
+
+/* ---------- Form fields ---------- */
+.field label, .form-group label { color: #141414; letter-spacing: .01em; margin-bottom: 7px; }
+
+.field input, .field select,
+.report-filter select, .report-filter input,
+.report-filter input[type=date], .report-filter input[type=month],
+.form-group input, .form-group select {
+    background-color: #f5f5f7;
+    border: 1.5px solid #e2e2e7;
+    border-radius: 12px;
+    padding: 11px 14px;
+    font-size: 14px;
+    color: #141414;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,.05);
+    transition: border-color .18s ease, background-color .18s ease, box-shadow .18s ease;
+}
+.field input::placeholder, .form-group input::placeholder { color: #9a9aa5; }
+.field input:hover, .field select:hover,
+.report-filter select:hover, .report-filter input:hover,
+.form-group input:hover, .form-group select:hover { background-color: #fff; border-color: #c4c4cc; }
+
+.field input:focus, .field select:focus,
+.report-filter select:focus, .report-filter input:focus,
+.form-group input:focus, .form-group select:focus {
+    background-color: #fff;
+    border-color: #141414;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(20,20,20,.09);
+}
+
+/* locked / read-only fields look calm instead of clickable */
+.field input[readonly] { background-color: #ececef; color: #55555e; cursor: default; box-shadow: none; }
+.field input[readonly]:hover { border-color: #e2e2e7; background-color: #ececef; }
+
+/* dropdown arrow */
+.field select, .report-filter select, .form-group select {
+    -webkit-appearance: none; appearance: none;
+    padding-right: 40px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23141414' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+}
+
+/* file picker: tidy dark button */
+.field input[type=file] { padding: 7px 8px; cursor: pointer; }
+.field input[type=file]::file-selector-button {
+    background: #141414; color: #fff; border: none; border-radius: 8px;
+    padding: 8px 16px; margin-right: 12px; font-weight: 600; font-family: inherit; font-size: 13px; cursor: pointer;
+    transition: background .15s ease;
+}
+.field input[type=file]::file-selector-button:hover { background: #000; }
+
+/* show / hide password eye sits inside the field */
+.field .input-wrap { position: relative; }
+.field .input-wrap input { padding-right: 48px; }
+.field .toggle-pass {
+    position: absolute; right: 8px; top: 50%; transform: translateY(-50%);
+    width: 34px; height: 34px; border: none; border-radius: 8px;
+    background: transparent; cursor: pointer; font-size: 16px; line-height: 1;
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: background .15s ease;
+}
+.field .toggle-pass:hover { background: #e9e9ed; }
+
+/* +63 badge next to the mobile number */
+.phone-prefix {
+    display: inline-flex; align-items: center; align-self: stretch;
+    padding: 0 16px; background: #141414; color: #fff;
+    border-radius: 12px; font-weight: 700; font-size: 14px; letter-spacing: .02em;
+}
+
+/* ---------- Dividers, tables and inner cards ---------- */
+.panel-head { border-bottom: 1px solid #ececef; padding-bottom: 14px; }
+
+table.data-table th {
+    background: #141414; color: #fff;
+    border-bottom: none;
+    font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em;
+    padding-top: 13px; padding-bottom: 13px;
+}
+table.data-table th a { color: inherit; }
+table.data-table th:first-child { border-top-left-radius: 10px; }
+table.data-table th:last-child  { border-top-right-radius: 10px; }
+table.data-table td { border-bottom: 1px solid #efeff2; }
+table.data-table tr:hover td { background: #f7f7f9; }
+
+.stat-card .stat-footer { border-top: 1px solid #ececef; }
+
+.donut-leg {
+    background: #fafafb; border: 1px solid #ececef; border-radius: 14px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04); transition: transform .15s ease, box-shadow .15s ease;
+}
+.donut-leg:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,.08); }
+
+/* ---------- Dashed drop boxes ---------- */
+.fingerprint-box, .file-dropzone {
+    border: 2px dashed #cfcfd6; background: #fafafb; border-radius: 14px;
+    transition: border-color .15s ease, background .15s ease;
+}
+.fingerprint-box:hover, .file-dropzone:hover { border-color: #141414; background: #f4f4f6; }
+.fingerprint-box.enrolled { border-color: var(--success); background: #f1faf4; }
+.file-dropzone.dragover { border-color: #141414; background: #ececef; }
+
+
+/* =========================================================
+   Floating admin-password pop-up (blurred background)
+   Same pop / fade animations as the page transitions.
+   ========================================================= */
+.am-overlay {
+    position: fixed; inset: 0; z-index: 1900;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    background: rgba(15,15,18,.42);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    animation: btxFadeIn .22s ease both;
+}
+.am-overlay[hidden] { display: none; }
+.am-overlay.is-closing { animation: btxFadeOut .18s ease both; }
+.am-overlay.is-closing .am-card { animation: amPopOut .18s ease both; }
+
+.am-card {
+    width: 100%; max-width: 480px; max-height: calc(100vh - 40px); overflow-y: auto;
+    background: #fff;
+    border: 2px solid var(--yellow-accent); border-top-width: 5px;
+    border-radius: 16px;
+    box-shadow: 0 24px 60px rgba(0,0,0,.35);
+    padding: 20px 24px 24px;
+    animation: btxPop .4s cubic-bezier(.2,.8,.2,1) both;
+}
+.am-card.shake { animation: amShake .45s ease both; }
+
+.am-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.am-head h3 { flex: 1; margin: 0; font-size: 18px; color: #141414; }
+.am-icon {
+    width: 40px; height: 40px; flex: none; border-radius: 50%;
+    background: #fdecea; color: var(--danger);
+    display: flex; align-items: center; justify-content: center; font-size: 20px;
+}
+.am-icon:empty { display: none; }
+.am-card.is-safe .am-icon { background: #f1f1f4; color: #141414; }
+.am-close {
+    width: 34px; height: 34px; flex: none; border: none; border-radius: 50%;
+    background: #f1f1f4; color: #141414; font-size: 22px; line-height: 1; cursor: pointer;
+    transition: background .15s ease, transform .15s ease;
+}
+.am-close:hover { background: #e2e2e7; transform: rotate(90deg); }
+
+.am-body p { margin: 0 0 12px; font-size: 14px; line-height: 1.6; }
+.am-body ul { margin: 0 0 14px; }
+.am-body .am-error { margin: 0 0 14px; }
+
+.am-loading { display: flex; align-items: center; justify-content: center; gap: 12px; padding: 26px 0; color: var(--text-muted); font-size: 14px; }
+.am-loading i {
+    width: 22px; height: 22px; border-radius: 50%;
+    border: 3px solid #e2e2e7; border-top-color: #141414;
+    animation: amSpin .8s linear infinite;
+}
+
+@keyframes amSpin { to { transform: rotate(360deg); } }
+@keyframes amPopOut { to { opacity: 0; transform: translateY(10px) scale(.97); } }
+@keyframes amShake {
+    0%   { opacity: 1; transform: none; }
+    20%  { transform: translateX(-9px); }
+    40%  { transform: translateX(8px); }
+    60%  { transform: translateX(-6px); }
+    80%  { transform: translateX(4px); }
+    100% { opacity: 1; transform: none; }
+}
+
+/* the "Are you sure?" box gets the same blur + pop */
+.confirm-overlay { -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); background: rgba(15,15,18,.42); }
+.confirm-box { animation: btxPop .4s cubic-bezier(.2,.8,.2,1) both; }
+
+@media (max-width: 480px) {
+    .am-card { padding: 16px 16px 20px; border-radius: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .am-overlay, .am-card, .confirm-box, .am-loading i { animation: none !important; }
+}
+@media print { .am-overlay { display: none !important; } }
+
+
+/* =========================================================
+   Attendance Breakdown: panel split in two halves.
+   Left half = donut centered, right half = compact legend centered
+   ========================================================= */
+.donut-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 32px;
+    padding: 24px 0 16px;
+}
+.donut { width: 340px; height: 340px; justify-self: center; }
+.donut circle { stroke-width: 4.4; }
+.donut .donut-track { stroke: #ececef; }
+.donut-center b { font-size: 58px; }
+.donut-center span { font-size: 15px; margin-top: 10px; }
+
+.donut-legend { flex: none; width: 100%; max-width: 440px; min-width: 0; justify-self: center; gap: 12px; align-content: center; }
+.donut-leg { gap: 14px; padding: 14px 18px; border-radius: 12px; }
+.donut-leg .dot { width: 11px; height: 11px; }
+.donut-leg .n { font-size: 15px; line-height: 1.25; }
+.donut-leg .c { font-size: 12.5px; line-height: 1.3; }
+.donut-leg .p { font-size: 20px; }
+
+@media (max-width: 900px) {
+    .donut { width: 270px; height: 270px; }
+    .donut-center b { font-size: 46px; }
+}
+@media (max-width: 700px) {
+    .donut-wrap { grid-template-columns: 1fr; gap: 24px; padding: 12px 0; }
+    .donut { width: 250px; height: 250px; }
+    .donut-center b { font-size: 42px; }
+    .donut-legend { max-width: 100%; }
+}
+
+
+/* =========================================================
+   MOBILE HOUSEKEEPING (phones) - admin + employee
+   Everything here is inside a phone-size media query, so the
+   desktop layout is not touched.
+   ========================================================= */
+
+/* My Attendance header: Print Record sits at the top on phones, right side on desktop */
+.att-head h2 { order: 1; margin-right: auto; }
+.att-head form { order: 2; }
+.att-head .att-print { order: 3; }
+
+@media (max-width: 640px) {
+    .main { max-width: 100%; }
+    .content { padding: 14px 12px 28px; }
+
+    .page-head { margin-bottom: 16px; }
+    .page-head h1 { font-size: 20px; }
+
+    /* 16px fields: stops iPhone Safari from zooming the page when a box is tapped */
+    .content input:not([type=checkbox]):not([type=radio]):not([type=file]),
+    .content select, .content textarea,
+    .auth-card input, .auth-card select { font-size: 16px; }
+    .table-toolbar input[type=text] { width: 100%; min-width: 0; }
+
+    /* Bigger touch targets */
+    .panel-head .btn, .rf-actions .btn, .bulk-bar .btn { min-height: 42px; }
+    .tool-btn { width: 34px; height: 34px; }
+
+    /* Four small summary cards (Total / Present / Late / Absent): 2 x 2 instead of 4 tall rows */
+    .stat-grid.stat-grid-att { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .stat-grid-att .stat-card .stat-body { padding: 16px 14px 14px; }
+    .stat-grid-att .stat-card .stat-number { font-size: 28px; }
+    .stat-grid-att .stat-card .stat-label { font-size: 12px; margin-top: 8px; }
+    .stat-grid-att .stat-card .stat-icon { width: 34px; height: 34px; top: 14px; right: 12px; }
+    .stat-grid-att .stat-card .stat-icon .ico-svg { width: 18px; height: 18px; }
+
+    /* Breakdown donut: a bit smaller so it fits above the table without a long scroll */
+    .donut { width: 200px; height: 200px; }
+    .donut-center b { font-size: 34px; }
+    .donut-wrap { gap: 18px; padding: 4px 0; }
+    .donut-leg { padding: 10px 14px; gap: 12px; }
+    .donut-leg .p { font-size: 18px; }
+
+    /* My Attendance header: [ Print Record (full width) ]  then  title + Show filter */
+    .att-head { gap: 10px 12px; }
+    .att-head .att-print { order: 0; flex: 1 1 100%; text-align: center; min-height: 44px; }
+    .att-head h2 { order: 1; }
+    .att-head form { order: 2; }
+
+    /* Admin tables stay scrollable sideways, but are tighter and show a fade on the edge that scrolls */
+    table.data-table:not(.att-table) th { padding: 10px 9px; }
+    table.data-table:not(.att-table) td { padding: 10px 9px; }
+    .content div[style*="overflow-x:auto"] {
+        -webkit-overflow-scrolling: touch;
+        background:
+            linear-gradient(to right, #fff 30%, rgba(255,255,255,0)) left center / 28px 100% no-repeat local,
+            linear-gradient(to left,  #fff 30%, rgba(255,255,255,0)) right center / 28px 100% no-repeat local,
+            linear-gradient(to right, rgba(0,0,0,.14), rgba(0,0,0,0)) left center / 12px 100% no-repeat scroll,
+            linear-gradient(to left,  rgba(0,0,0,.14), rgba(0,0,0,0)) right center / 12px 100% no-repeat scroll;
+    }
+}
+
+/* ---- Employee attendance table -> one card per day on phones (screen only, never when printing).
+        Status (Present / Late / Absent) is always visible on the first line of each card. ---- */
+@media screen and (max-width: 640px) {
+    .content div[style*="overflow-x:auto"]:has(> table.att-table) { background: none; overflow-x: visible; }
+
+    table.att-table, table.att-table tbody { display: block; width: 100%; }
+    table.att-table thead { display: none; }
+
+    table.att-table tr {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px 10px;
+        align-items: start;
+        margin: 0 0 10px;
+        padding: 12px 14px;
+        background: #fff;
+        border: 1px solid var(--border-light);
+        border-left: 5px solid #16a34a;           /* Present */
+        border-radius: 12px;
+    }
+    table.att-table.cols4 tr { grid-template-columns: repeat(4, 1fr); }
+    table.att-table tr.st-late    { border-left-color: #f97316; }
+    table.att-table tr.st-absent  { border-left-color: #dc2626; }
+    table.att-table tr.st-excused { border-left-color: #8a94a6; }
+
+    table.att-table td { display: block; padding: 0; border: 0; background: transparent !important; min-width: 0; }
+    table.att-table tr:hover td { background: transparent !important; }
+    table.att-table td.c-num { display: none; }
+
+    table.att-table td.c-date   { grid-column: 1 / -2; grid-row: 1; font-weight: 700; font-size: 14.5px; align-self: center; }
+    table.att-table td.c-status { grid-column: -2 / -1; grid-row: 1; justify-self: end; align-self: center; }
+    table.att-table td.c-status .pill { font-size: 12px; padding: 4px 12px; }
+
+    table.att-table td.c-shift, table.att-table td.c-in,
+    table.att-table td.c-out,   table.att-table td.c-hrs { font-size: 13px; font-weight: 600; word-break: break-word; }
+    table.att-table td[data-label]::before {
+        content: attr(data-label);
+        display: block;
+        margin-bottom: 2px;
+        font-size: 10.5px;
+        font-weight: 600;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+    }
+
+    /* Absent days have no times: just the date, the Absent label and a short note */
+    table.att-table tr.is-absent td.c-shift, table.att-table tr.is-absent td.c-in,
+    table.att-table tr.is-absent td.c-out,   table.att-table tr.is-absent td.c-hrs { display: none; }
+    table.att-table tr.is-absent::after {
+        content: "No time record for this day";
+        grid-column: 1 / -1;
+        font-size: 12px;
+        color: var(--text-muted);
+    }
+}
+
+
+/* ---------- Bigger Time In / Time Out + clickable sortable headers ---------- */
+table.data-table td.t-time {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .01em;
+    white-space: nowrap;
+    color: #141414;
+}
+table.data-table th a.th-sort {
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-block;
+}
+table.data-table th a.th-sort:hover { color: var(--yellow-accent, #f5c518); }
+table.data-table th.th-sorted a.th-sort { color: var(--yellow-accent, #f5c518); }
+@media screen and (max-width: 640px) {
+    table.att-table td.c-in.t-time, table.att-table td.c-out.t-time { font-size: 15px; font-weight: 700; }
+}
+@media print {
+    table.data-table td.t-time { font-size: 13px; }
+}
+
+
+/* ---------- Admin dashboard: statistics row sits below the top cards ---------- */
+.stat-grid + .stat-grid { margin-top: 24px; }
+
+
+/* =========================================================
+   Admin dashboard statistics (KPI cards + donut + 7-day chart)
+   ========================================================= */
+:root { --c-present: #16a34a; --c-late: #f97316; --c-absent: #dc2626; }
+
+.kpi-grid { grid-template-columns: repeat(4, 1fr); }
+.stat-card.kpi { padding: 18px 20px 18px; gap: 0; }
+.kpi-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.kpi-label { font-size: 13px; font-weight: 600; color: #52525b; letter-spacing: .01em; }
+.stat-card.kpi .stat-icon { position: static; width: 36px; height: 36px; flex: none; }
+.stat-card.kpi .stat-icon .ico-svg { width: 18px; height: 18px; }
+.kpi-num { font-size: 38px; font-weight: 700; letter-spacing: -.03em; line-height: 1.1; margin-top: 10px; display: flex; align-items: baseline; gap: 10px; }
+.kpi-num small { font-size: 13px; font-weight: 600; color: #71717a; letter-spacing: 0; }
+.kpi-note { font-size: 12px; color: #8a94a6; margin-top: 4px; min-height: 16px; }
+.kpi-bar { height: 6px; border-radius: 999px; background: #f1f1f3; margin-top: 14px; overflow: hidden; }
+.kpi-bar i { display: block; height: 100%; border-radius: 999px; background: #16a34a; transition: width .6s ease; }
+.kpi.late .kpi-bar i { background: var(--c-late); }
+.kpi.red  .kpi-bar i { background: var(--c-absent); }
+
+.adm-grid { display: grid; grid-template-columns: minmax(320px, 5fr) 7fr; gap: 24px; margin-top: 24px; align-items: stretch; }
+.adm-grid > .panel { margin-top: 0; }
+.adm-grid .panel-head h2 { font-size: 16px; }
+.adm-grid .donut-wrap { grid-template-columns: 1fr; justify-items: center; gap: 22px; padding: 18px 0 6px; }
+.adm-grid .donut { width: 210px; height: 210px; }
+.adm-grid .donut circle { stroke-width: 4; }
+.adm-grid .donut-center b { font-size: 36px; }
+.adm-grid .donut-center span { font-size: 12.5px; margin-top: 6px; }
+.adm-grid .donut-legend { max-width: none; width: 100%; gap: 8px; }
+.adm-grid .donut-leg { padding: 10px 14px; }
+.adm-grid .donut-leg .p { font-size: 17px; }
+
+.trend-panel { display: flex; flex-direction: column; }
+.trend-panel .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.trend-legend { display: flex; gap: 16px; font-size: 12px; color: #52525b; }
+.trend-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.trend-legend i, .trend-legend i.seg-present { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.trend-legend .seg-present { background: var(--c-present); }
+.trend-legend .seg-late { background: var(--c-late); }
+.trend-legend .seg-absent { background: var(--c-absent); }
+.trend-chart { flex: 1; display: grid; grid-template-columns: repeat(7, 1fr); gap: 14px; align-items: end; padding: 22px 4px 4px; }
+.trend-col { display: flex; flex-direction: column; align-items: center; gap: 8px; min-width: 0; }
+.trend-rate { font-size: 12px; font-weight: 700; color: #3f3f46; }
+.trend-track {
+    width: 100%; max-width: 54px; height: 220px; display: flex; align-items: flex-end;
+    border-radius: 10px;
+    background: repeating-linear-gradient(to top, transparent 0, transparent 54px, #f1f1f3 54px, #f1f1f3 55px);
+    background-color: #fafafa;
+}
+.trend-bar { width: 100%; display: flex; flex-direction: column; border-radius: 10px; overflow: hidden; min-height: 0; transition: height .6s ease; }
+.trend-bar span { display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #fff; min-height: 0; overflow: hidden; }
+.trend-bar .seg-present { background: var(--c-present); }
+.trend-bar .seg-late { background: var(--c-late); }
+.trend-bar .seg-absent { background: var(--c-absent); }
+.trend-day { text-align: center; line-height: 1.25; }
+.trend-day b { display: block; font-size: 13px; }
+.trend-day span { font-size: 11.5px; color: #8a94a6; }
+.trend-col.is-today .trend-day b { color: #141414; border-bottom: 3px solid var(--yellow-accent); }
+.trend-foot { font-size: 11.5px; color: #8a94a6; margin-top: 14px; padding-top: 12px; border-top: 1px solid #ececef; }
+
+@media (max-width: 1100px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } .adm-grid { grid-template-columns: 1fr; } }
+@media (max-width: 560px)  { .kpi-num { font-size: 30px; } .trend-chart { gap: 6px; } .trend-track { height: 170px; } .trend-legend { gap: 10px; } }
+
+/* =========================================================
+   Big faint school logo, pinned to the screen (does not scroll)
+   ========================================================= */
+.app { position: relative; }
+body:has(> .app)::after {
+    content: ''; position: fixed; top: 0; bottom: 0; right: 0; left: 230px; z-index: 1; pointer-events: none;
+    background: url(../img/gnclogo.png) center center / min(940px, 92vh) no-repeat;
+    opacity: .045;
+}
+body:has(> .app .sidebar-collapsed)::after,
+body:has(> .app.sidebar-collapsed)::after { left: 70px; }
+@media (max-width: 900px) { body:has(> .app)::after, body:has(> .app.sidebar-collapsed)::after { left: 0; background-size: min(90vw, 80vh); } }
+@media print { body::after { display: none !important; } }
+
+/* =========================================================
+   Account menu: opens/closes on click only (no hover)
+   ========================================================= */
+.topbar .admin-chip { align-self: stretch; padding: 0 4px; }
+.topbar .admin-chip .dropdown {
+    margin-top: 12px;
+    transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
+}
+.topbar .admin-chip .dropdown::before { top: -14px; height: 14px; }
+
+.content { min-width: 0; }
+.panel:has(.form-grid),
+.panel:has(table.data-table) { container-type: inline-size; }
+
+.form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.form-grid > * { min-width: 0; }
+.field input, .field select { min-width: 0; max-width: 100%; box-sizing: border-box; }
+.fingerprint-box { overflow-wrap: anywhere; }
+
+@container (max-width: 640px) {
+    .form-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@container (max-width: 1250px) {
+    table.data-table th { padding: 10px 9px; font-size: 11.5px; }
+    table.data-table td { padding: 10px 9px; font-size: 12.5px; }
+    .tool-btn { margin-right: 2px; }
+}
+@container (max-width: 1000px) {
+    table.data-table th { padding: 9px 6px; font-size: 11px; letter-spacing: .02em; }
+    table.data-table td { padding: 9px 6px; font-size: 12px; }
+}
+
+
+/* ---------- Click-to-sort headers (assets/js/app.js) ---------- */
+table.data-table th.th-sortable,
+.dr-sortable th.th-sortable { cursor: pointer; user-select: none; }
+table.data-table th.th-sortable:hover,
+table.data-table th.th-sorted { color: var(--yellow-accent, #f5c518); }
+.dr-sortable th.th-sortable:hover,
+.dr-sortable th.th-sorted { color: #f5c518 !important; }
+.sort-arrow { font-size: .8em; }
+@media print { .sort-arrow { display: none; } }
+
+.alert-info { background: #eef3fb; color: #2a4a7f; border: 1px solid #c9d8f0; }

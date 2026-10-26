@@ -1,0 +1,123 @@
+/* =========================================================
+   BioTrack - Auth pages (Sign in / Create Admin Account)
+   Black top banner + light page, white card overlapping both
+   ========================================================= */
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-banner {
+    background: var(--blue-header);
+    color: #fff;
+    text-align: center;
+    padding: 34px 20px 90px;
+}
+.auth-banner h1 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: .3px;
+}
+
+.auth-body {
+    flex: 1;
+    background: var(--bg-light);
+    display: flex;
+    justify-content: center;
+    padding-bottom: 60px;
+}
+
+.auth-card {
+    background: #fff;
+    width: 100%;
+    max-width: 340px;
+    margin-top: -70px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    padding: 26px 28px 30px;
+    height: fit-content;
+}
+
+.auth-card h2 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 17px;
+    margin: 4px 0 20px;
+    color: var(--text-dark);
+}
+.auth-card h2 .icon-circle {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--text-dark);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+}
+
+.form-group { margin-bottom: 14px; }
+.form-group label {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 5px;
+}
+.input-wrap { position: relative; }
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px 34px 10px 12px;
+    border: 1px solid #d6dae2;
+    border-radius: 20px;
+    font-size: 13.5px;
+    font-family: inherit;
+    outline: none;
+    background: #fbfbfc;
+    color: var(--text-dark);
+}
+.form-group select { padding-right: 12px; cursor: pointer; }
+.form-group input:focus,
+.form-group select:focus {
+    border-color: #141414;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(20,20,20,.09);
+}
+.toggle-pass {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 14px;
+    background: none;
+    border: none;
+    user-select: none;
+}
+
+.auth-card .btn-primary {
+    border-radius: 20px;
+    margin-top: 6px;
+    font-size: 14px;
+    padding: 11px 18px;
+}
+
+.forgot-link {
+    display: block;
+    font-size: 12.5px;
+    color: var(--yellow-accent-dark);
+    margin: -6px 0 14px;
+}
+
+.auth-switch {
+    text-align: center;
+    margin-top: 16px;
+    font-size: 12.5px;
+    color: var(--text-muted);
+}
+.auth-switch a { color: var(--yellow-accent-dark); font-weight: 600; }

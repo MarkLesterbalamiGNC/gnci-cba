@@ -1,0 +1,52 @@
+STANDALONE TIME IN / TIME OUT  (Arduino UNO + W5100 + ZA620_M5)
+================================================================
+FILES - copy into your BioTrack folder on the XAMPP PC (htdocs\BioTrack_Device), overwrite when asked:
+      device_punch.php               (new - the Arduino sends punches here)
+      config\device_config.php       (new - the secret key)
+      attendance_recent.php          (new - feeds the live screen)
+      attendance_scan.php            (updated - live screen, no Connect Scanner)
+      assets\js\attendance_live.js   (new)
+      assets\js\attendance_scan.js   (updated - only the USB-mode pop-out link)
+      dashboard.php                  (updated - employee page: donut first, Print Record, phone cards)
+      employee_report.php            (updated - My Report table as phone cards)
+      includes\attendance_summary.php (updated - 2x2 summary cards on phones)
+      assets\css\style.css            (updated - mobile cleanup added at the very end)
+
+STEPS
+1. config\device_config.php -> change DEVICE_API_KEY (letters/numbers, max 24).
+2. On the XAMPP PC open Command Prompt, type  ipconfig  and note:
+      IPv4 Address     (example 192.168.1.100)  -> SERVER_IP
+      Default Gateway  (example 192.168.1.1)    -> GATEWAY_IP
+3. In your router, reserve the PC's IP so it never changes (or set a fixed IP on the PC).
+   NOTE: the Arduino now gets ITS OWN IP automatically (USE_DHCP true). Only SERVER_IP must be typed.
+4. Open Arduino INO\biotrack_enroll\biotrack_enroll.ino  (the ONLY sketch - it does enrolling AND standalone punching), edit section 1:
+      ARDUINO_IP   a FREE address in the same network (same first 3 numbers), e.g. 192.168.1.177
+      GATEWAY_IP   the Default Gateway
+      SERVER_IP    the PC's IPv4 address
+      SERVER_PATH  "/BioTrack_Device/device_punch.php" (match your htdocs folder name)
+      API_KEY      same text as DEVICE_API_KEY
+   Upload (Libraries: Adafruit Fingerprint, LiquidCrystal I2C, Ethernet 2.0.0+).
+5. LAN cable from the Ethernet shield to the router. Power the UNO with a USB charger / 9V adapter.
+   XAMPP Apache + MySQL must be running. Allow Apache (port 80) in Windows Firewall (Private network).
+
+WIFI?  The W5100 shield is cable-only (no WiFi inside). To make it wireless without changing code:
+   plug the shield's LAN cable into a WiFi "client / bridge" device placed next to the Arduino:
+   a cheap travel router (GL.iNet, TP-Link) in "Client/WISP/Bridge" mode, an old router set to
+   "Wireless client", or a WiFi extender with an Ethernet port. Join it to your WiFi, done.
+
+TEST WITHOUT THE ARDUINO (PowerShell on any PC in the network):
+   Invoke-WebRequest -Uri http://SERVER_IP/BioTrack_Device/device_punch.php -Method POST -Body @{key='YOURKEY';slot=1} | Select -Expand Content
+   Expected: IN|Name|7:05 AM|Present   (or ERR|NOLINK if slot 1 is not linked to an employee)
+
+
+DEFAULT ADMIN
+-------------
+sql/biotrack_database.sql now also creates the admin account (username: SuperAdmin).
+
+AI ASSISTANT (admin only, optional)
+----------------------------------
+1. FREE option (default): get a Google key at aistudio.google.com > Get API key.
+2. Open config\ai_config.php and paste it into AI_GEMINI_KEY.
+   (To use Claude instead, set AI_PROVIDER to 'claude' and fill AI_API_KEY.)
+3. The PC needs internet and PHP's cURL on (php.ini: extension=curl).
+The yellow sparkle button (bottom right) opens the assistant. It only reads data; it cannot change anything.
